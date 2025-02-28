@@ -6,13 +6,24 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/02/27 03:27:59 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/02/28 11:48:05 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <BitcoinExchange.hpp>
 
-BitcoinExchange::BitcoinExchange() {	
+BitcoinExchange::BitcoinExchange() {
+	
+	std::ifstream	file(FILEPATH);
+	std::string		line;
+
+	if(!file.is_open())
+		throw(dataBaseException());
+	while(std::getline(file, line)) {
+		 
+	}
+	file.close();
+
 }
 
 BitcoinExchange::~BitcoinExchange() {	
@@ -25,6 +36,10 @@ BitcoinExchange::BitcoinExchange(BitcoinExchange &copy) {
 BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const &rhs) {
 	(void)rhs;
 	return (*this);
+}
+
+checkDate(line) {
+	
 }
 
 void	BitcoinExchange::fileReader(char *argv) {
@@ -41,14 +56,32 @@ void	BitcoinExchange::fileReader(char *argv) {
 		throw(firstLineException());
 	while(getline(file,line)) {
 		try {
-			checkLine(line);
+			checkDate(line);
 		}
 		catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 		}
-		
+		try {
+			checkComma(line);
+		}
+		catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
+
+		try {
+			checkValue(line);
+		}
+		catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
+		try {
+			checkEndLine(line);
+		}
+		catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+		}
 	}
-	//if(line != "data | value")
+
 // 		This program must use a database in csv format which will represent bitcoin price
 // over time
 
@@ -56,6 +89,10 @@ void	BitcoinExchange::fileReader(char *argv) {
 		// must use the closest date contained in your DB. Be careful to use the
 		// lower date and not the upper one.
 		
+}
+
+const char* BitcoinExchange::dataBaseException::what() const throw() {
+	return(MYRED "Error: couldn't open the database file" MYEOF);
 }
 
 const char* BitcoinExchange::fileException::what() const throw() {
