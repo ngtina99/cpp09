@@ -6,21 +6,35 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/02/28 11:48:05 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/02/28 17:30:21 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <BitcoinExchange.hpp>
 
 BitcoinExchange::BitcoinExchange() {
-	
+
 	std::ifstream	file(FILEPATH);
 	std::string		line;
 
 	if(!file.is_open())
 		throw(dataBaseException());
+	std::getline(file, line);
+	if(line.empty())
+		throw(fileException());
 	while(std::getline(file, line)) {
-		 
+
+		std::string date, exchangeRateStr;
+		float exchangeRate;
+		
+		std::stringstream ss(line);
+		std::getline(ss, date, ',');
+		std::getline(ss, exchangeRateStr, '\n');
+
+		exchangeRate = std::stod(exchangeRateStr);
+
+		this->_data[date] =exchangeRate;
+
 	}
 	file.close();
 
@@ -38,9 +52,47 @@ BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const &rhs) {
 	return (*this);
 }
 
-checkDate(line) {
-	
+void	BitcoinExchange::checkDate(std::string data) {
+
+	int year;
+	int month;
+	int day;
+	std::string dashChar;
+	std::stringstream ss(data);
+
+	ss >> year >> dashChar >> month >> dashChar >> day;
+	if (year < 0 || year > 999999 || month < 1 || month > 12 || day < 1 || day > 31)
+		throw(dateException(date));
+	else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30))
+		throw(dateException(date));
+	else if ((year % 4 == 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
+		throw(dateException(date));
 }
+
+void	BitcoinExchange::checkValue(float value) {
+	if (value > INT_MAX)
+		throw(tooHighValueException());
+	else if(value < 0)
+		throw(negativeNumberException());
+}
+
+void	BitcoinExchange::exchangeValue(std::string const &date, float value) {
+	
+	std::map<std::string, float>::iterator it;
+	it = _data.find(date);
+	
+	if (it != _data.end()) {
+		std::cout << date << " => " << value << value * it->second << std::endl;
+		return ;
+	}
+
+	if()
+
+	else
+		throw();
+		
+}
+
 
 void	BitcoinExchange::fileReader(char *argv) {
 
@@ -55,44 +107,52 @@ void	BitcoinExchange::fileReader(char *argv) {
 	if(line != "data | value")
 		throw(firstLineException());
 	while(getline(file,line)) {
+
+		std::string date, valueStr;
+		float value;
+		
+		std::stringstream ss(line);
+		std::getline(ss, date, '|');
+		date.pop_back();
+		std::getline(ss, valueStr, '\n');
+
+		value = std::stod(valueStr.erase(0, 1));
+		
 		try {
-			checkDate(line);
+
+			checkDate(date);
+
 		}
 		catch (std::exception &e) {
+
 			std::cerr << e.what() << std::endl;
-		}
-		try {
-			checkComma(line);
-		}
-		catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
+			continue;
+
 		}
 
 		try {
-			checkValue(line);
+
+			checkValue(value);
+
 		}
 		catch (std::exception &e) {
+
 			std::cerr << e.what() << std::endl;
+			continue;
+
 		}
-		try {
-			checkEndLine(line);
-		}
-		catch (std::exception &e) {
-			std::cerr << e.what() << std::endl;
-		}
+		exchangeValue(date, value);		
 	}
-
+}
 // 		This program must use a database in csv format which will represent bitcoin price
 // over time
 
 		// If the date used in the input does not exist in your DB then you
 		// must use the closest date contained in your DB. Be careful to use the
 		// lower date and not the upper one.
-		
-}
 
 const char* BitcoinExchange::dataBaseException::what() const throw() {
-	return(MYRED "Error: couldn't open the database file" MYEOF);
+	return(MYRED "Error: couldn't open the database file or it was empty" MYEOF);
 }
 
 const char* BitcoinExchange::fileException::what() const throw() {
@@ -103,3 +163,22 @@ const char* BitcoinExchange::firstLineException::what() const throw() {
 	return(MYRED "Error: first line is not exactly 'data | value'" MYEOF);
 }
 
+::BitcoinExchange::dateException::dateException(const std::string &date) {
+	this->_errorMessage = "Error: bad input => " + date;
+}
+
+const char* BitcoinExchange::dateException::what() const throw() {
+	return(MYRED, _errorMessage.c_str(), MYEOF);
+}
+
+const char* BitcoinExchange::tooHighValueException::what() const throw() {
+	return(MYRED "Error: too large a number." MYEOF);
+}
+
+const char* BitcoinExchange::negativeNumberException::what() const throw() {
+	return(MYRED "Error: not a positive number." MYEOF);
+}
+
+const char* BitcoinExchange::noLowerException::what() const throw() {
+	return(MYRED "Error: no equal or lower date" MYEOF);
+}
