@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:17 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/02/28 17:29:55 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/02/28 18:12:41 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 #define MYGREEN	"\033[1;32m"
 #define MYPURPLE	"\033[1;35m"
 
-#define FILEPATH "../data.csv"
+#define FILEPATH "data.csv"
 
 class BitcoinExchange {
 	
@@ -73,14 +73,6 @@ class BitcoinExchange {
 
 		};
 
-		class dataBaseException : public std::exception {
-			
-			public:
-
-				const char *what() const throw();	
-
-		};
-
 		class dateException : public std::exception {
 			
 			private:
@@ -90,6 +82,7 @@ class BitcoinExchange {
 			public:
 
 				dateException(const std::string &date);
+				virtual ~dateException() throw();
 				const char *what() const throw();	
 
 		};

@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/02/28 17:30:21 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/02/28 18:19:05 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 BitcoinExchange::BitcoinExchange() {
 
-	std::ifstream	file(FILEPATH);
+	std::ifstream	file("../data.csv");
 	std::string		line;
 
 	if(!file.is_open())
@@ -25,13 +25,14 @@ BitcoinExchange::BitcoinExchange() {
 	while(std::getline(file, line)) {
 
 		std::string date, exchangeRateStr;
-		float exchangeRate;
+		float exchangeRate = 0.0;
 		
 		std::stringstream ss(line);
 		std::getline(ss, date, ',');
 		std::getline(ss, exchangeRateStr, '\n');
 
-		exchangeRate = std::stod(exchangeRateStr);
+		std::istringstream iss(exchangeRateStr);
+		iss >> exchangeRate;
 
 		this->_data[date] =exchangeRate;
 
@@ -54,19 +55,19 @@ BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const &rhs) {
 
 void	BitcoinExchange::checkDate(std::string data) {
 
-	int year;
-	int month;
-	int day;
+	int	year;
+	int	month;
+	int	day;
 	std::string dashChar;
 	std::stringstream ss(data);
 
 	ss >> year >> dashChar >> month >> dashChar >> day;
 	if (year < 0 || year > 999999 || month < 1 || month > 12 || day < 1 || day > 31)
-		throw(dateException(date));
+		throw(dateException(data));
 	else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30))
-		throw(dateException(date));
+		throw(dateException(data));
 	else if ((year % 4 == 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
-		throw(dateException(date));
+		throw(dateException(data));
 }
 
 void	BitcoinExchange::checkValue(float value) {
@@ -79,20 +80,16 @@ void	BitcoinExchange::checkValue(float value) {
 void	BitcoinExchange::exchangeValue(std::string const &date, float value) {
 	
 	std::map<std::string, float>::iterator it;
-	it = _data.find(date);
+	it = _data.lower_bound(date);
 	
-	if (it != _data.end()) {
+	if (it != _data.end() && date == it->first)
 		std::cout << date << " => " << value << value * it->second << std::endl;
-		return ;
-	}
-
-	if()
-
+	if(it != _data.end())
+		std::cout << date << " => " << value << value * it->second << std::endl;
 	else
-		throw();
-		
-}
+		throw(noLowerException());
 
+}
 
 void	BitcoinExchange::fileReader(char *argv) {
 
@@ -104,7 +101,7 @@ void	BitcoinExchange::fileReader(char *argv) {
 	std::getline(file, line);
 	if(line.empty())
 		throw(fileException());
-	if(line != "data | value")
+	if(line != "date | value")
 		throw(firstLineException());
 	while(getline(file,line)) {
 
@@ -113,10 +110,11 @@ void	BitcoinExchange::fileReader(char *argv) {
 		
 		std::stringstream ss(line);
 		std::getline(ss, date, '|');
-		date.pop_back();
+		date.erase(date.size() - 1);
 		std::getline(ss, valueStr, '\n');
 
-		value = std::stod(valueStr.erase(0, 1));
+		std::istringstream iss(valueStr.erase(0, 1));
+		iss >> value;
 		
 		try {
 
@@ -160,15 +158,18 @@ const char* BitcoinExchange::fileException::what() const throw() {
 }
 
 const char* BitcoinExchange::firstLineException::what() const throw() {
-	return(MYRED "Error: first line is not exactly 'data | value'" MYEOF);
+	return(MYRED "Error: first line is not exactly 'datE | value'" MYEOF);
 }
 
-::BitcoinExchange::dateException::dateException(const std::string &date) {
+BitcoinExchange::dateException::dateException(const std::string &date) {
 	this->_errorMessage = "Error: bad input => " + date;
 }
 
 const char* BitcoinExchange::dateException::what() const throw() {
-	return(MYRED, _errorMessage.c_str(), MYEOF);
+	return(std::string(MYRED + _errorMessage + MYEOF).c_str());
+}
+
+BitcoinExchange::dateException::~dateException() throw() {
 }
 
 const char* BitcoinExchange::tooHighValueException::what() const throw() {
