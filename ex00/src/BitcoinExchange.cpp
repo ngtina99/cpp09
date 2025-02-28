@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/02/28 18:19:05 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/02/28 18:58:29 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 BitcoinExchange::BitcoinExchange() {
 
-	std::ifstream	file("../data.csv");
+	std::ifstream	file(FILEPATH);
 	std::string		line;
 
 	if(!file.is_open())
@@ -53,39 +53,42 @@ BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const &rhs) {
 	return (*this);
 }
 
-void	BitcoinExchange::checkDate(std::string data) {
+void	BitcoinExchange::checkDate(std::string date) {
 
 	int	year;
 	int	month;
 	int	day;
-	std::string dashChar;
-	std::stringstream ss(data);
 
-	ss >> year >> dashChar >> month >> dashChar >> day;
+	char dashChar1;
+	char dashChar2;
+
+	std::stringstream ss(date);
+
+	ss >> year >> dashChar1 >> month >> dashChar2 >> day;
 	if (year < 0 || year > 999999 || month < 1 || month > 12 || day < 1 || day > 31)
-		throw(dateException(data));
+		throw(dateException(date));
 	else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30))
-		throw(dateException(data));
+		throw(dateException(date));
 	else if ((year % 4 == 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
-		throw(dateException(data));
+		throw(dateException(date));
 }
 
 void	BitcoinExchange::checkValue(float value) {
-	if (value > INT_MAX)
+	if (value >= INT_MAX)
 		throw(tooHighValueException());
 	else if(value < 0)
 		throw(negativeNumberException());
 }
 
+//*********TO DO WROOOOOOOOOOONG 2011-01-09 => 1 = 0.33 supposed to be 0.32, lower but it shooses one upper */
 void	BitcoinExchange::exchangeValue(std::string const &date, float value) {
 	
-	std::map<std::string, float>::iterator it;
-	it = _data.lower_bound(date);
+	std::map<std::string, float>::iterator it = _data.lower_bound(date);
 	
 	if (it != _data.end() && date == it->first)
-		std::cout << date << " => " << value << value * it->second << std::endl;
-	if(it != _data.end())
-		std::cout << date << " => " << value << value * it->second << std::endl;
+		std::cout << date << " => " << value << " = " << std::setprecision(2) << value * it->second << std::endl;
+	else if(it != _data.end())
+		std::cout << date << " => " << value << " = "  << std::setprecision(2) << value * it->second << std::endl;
 	else
 		throw(noLowerException());
 
@@ -104,18 +107,19 @@ void	BitcoinExchange::fileReader(char *argv) {
 	if(line != "date | value")
 		throw(firstLineException());
 	while(getline(file,line)) {
-
 		std::string date, valueStr;
 		float value;
-		
-		std::stringstream ss(line);
-		std::getline(ss, date, '|');
-		date.erase(date.size() - 1);
-		std::getline(ss, valueStr, '\n');
 
-		std::istringstream iss(valueStr.erase(0, 1));
-		iss >> value;
-		
+		std::stringstream ss(line);
+
+		size_t pipePos = line.find('|');
+		if (pipePos == std::string::npos)
+			std::getline(ss, date, '\n');
+		else {
+			std::getline(ss, date, '|');
+			date.erase(date.size() - 1);
+		}
+
 		try {
 
 			checkDate(date);
@@ -128,6 +132,10 @@ void	BitcoinExchange::fileReader(char *argv) {
 
 		}
 
+		std::getline(ss, valueStr, '\n');
+		valueStr.erase(0, 1);
+		std::stringstream ssValue(valueStr);
+		ssValue >> value;
 		try {
 
 			checkValue(value);
@@ -162,11 +170,11 @@ const char* BitcoinExchange::firstLineException::what() const throw() {
 }
 
 BitcoinExchange::dateException::dateException(const std::string &date) {
-	this->_errorMessage = "Error: bad input => " + date;
+	this->_errorMessage = std::string(MYRED) + "Error: bad input => " + date + std::string(MYEOF);
 }
 
 const char* BitcoinExchange::dateException::what() const throw() {
-	return(std::string(MYRED + _errorMessage + MYEOF).c_str());
+	return(_errorMessage.c_str());
 }
 
 BitcoinExchange::dateException::~dateException() throw() {
