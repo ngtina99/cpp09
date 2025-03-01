@@ -1,7 +1,7 @@
-NAME = ex02
+NAME = PmergeMe
 
 SRC_DIR = ./src/
-SRC = main.cpp
+SRC = main.cpp PmergeMe.cpp
 OBJ = $(addprefix $(SRC_DIR), $(SRC:.cpp=.o))
 
 INC_DIR = ./inc/

@@ -1,7 +1,7 @@
-NAME = ex01
+NAME = RPN
 
 SRC_DIR = ./src/
-SRC = main.cpp
+SRC = main.cpp RPN.cpp
 OBJ = $(addprefix $(SRC_DIR), $(SRC:.cpp=.o))
 
 INC_DIR = ./inc/
