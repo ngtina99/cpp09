@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:09:11 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/09 18:10:32 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/03/09 19:10:17 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ class RPN {
 		RPN(RPN const &copy);
 		RPN &operator=(RPN const &rhs);
 
+		void	calculateValue(char op);
+
 		class parserException : public std::exception {
 			
 			const char* what() const throw();
@@ -46,6 +48,12 @@ class RPN {
 		};	
 		
 		class zeroDivisionException : public std::exception {
+			
+			const char* what() const throw();
+			
+		};
+
+		class calculationException : public std::exception {
 			
 			const char* what() const throw();
 			
