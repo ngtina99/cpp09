@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 13:32:12 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/09 19:12:31 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/03/09 19:27:21 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	RPN::calculateValue(char op) {
 	int result = 0;
 
 	if(_stack.size() < 2)
-		throw(parserException());
+		throw(calculationException());
 
 	a = _stack.top();
 	_stack.pop();
@@ -37,16 +37,16 @@ void	RPN::calculateValue(char op) {
 			result = a + b;
 			break;
 		case '-':
-			result = a - b;
+			result = b - a;
 			break;
 		case '*':
 			result = a * b;
 			break;
 		case '/':
-			if(b == 0)
+			if (b == 0)
 				throw(zeroDivisionException());
 			else
-				result = a / b;
+				result = a / b; //TODO
 			break;
 	}
 	_stack.push(result);
@@ -57,9 +57,8 @@ RPN::RPN(const std::string &arg) {
 	std::string inputValue;
 	std::stringstream ss(arg);
 	while (std::getline(ss, inputValue, ' ')) {	
-		if((inputValue.length() == 1 && isdigit(inputValue[0])) || (inputValue.length() == 2 && (inputValue[0] == '-' || inputValue[0] == '+') && isdigit(inputValue[1]))) {
+		if((inputValue.length() == 1 && isdigit(inputValue[0])) || (inputValue.length() == 2 && (inputValue[0] == '-' || inputValue[0] == '+') && isdigit(inputValue[1])))
 			_stack.push(std::atoi(inputValue.c_str()));
-		}
 		else if (inputValue[0] == '-' || inputValue[0] == '+' || inputValue[0] == '*' || inputValue[0] == '/')
 			calculateValue(inputValue[0]);
 		else
