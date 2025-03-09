@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 13:32:12 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/09 19:27:21 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/03/09 19:33:39 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	RPN::calculateValue(char op) {
 			if (b == 0)
 				throw(zeroDivisionException());
 			else
-				result = a / b; //TODO
+				result = b/ a;
 			break;
 	}
 	_stack.push(result);
