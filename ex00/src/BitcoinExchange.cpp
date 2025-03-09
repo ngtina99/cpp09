@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/02/28 18:58:29 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/03/09 15:21:57 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,16 @@ void	BitcoinExchange::checkValue(float value) {
 		throw(negativeNumberException());
 }
 
-//*********TO DO WROOOOOOOOOOONG 2011-01-09 => 1 = 0.33 supposed to be 0.32, lower but it shooses one upper */
 void	BitcoinExchange::exchangeValue(std::string const &date, float value) {
 	
 	std::map<std::string, float>::iterator it = _data.lower_bound(date);
 	
 	if (it != _data.end() && date == it->first)
 		std::cout << date << " => " << value << " = " << std::setprecision(2) << value * it->second << std::endl;
-	else if(it != _data.end())
+	else if(it != _data.end()) {
+		--it;
 		std::cout << date << " => " << value << " = "  << std::setprecision(2) << value * it->second << std::endl;
+	}
 	else
 		throw(noLowerException());
 
