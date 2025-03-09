@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:09:11 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/01 18:22:55 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/03/09 18:10:32 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ class RPN {
 		~RPN();
 		RPN(RPN const &copy);
 		RPN &operator=(RPN const &rhs);
-
-		int calcul();
 
 		class parserException : public std::exception {
 			

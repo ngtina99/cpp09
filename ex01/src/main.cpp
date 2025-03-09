@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:07:16 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/09 13:35:55 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/03/09 18:07:18 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		main(int argc, char **argv) {
 	}
 	try {
 		RPN rpn(argv[1]);
-		std::cout << rpn.getExpression() << std::endl;
+		//std::cout << rpn.getExpression() << std::endl;
 	}
 	catch (std::exception &e) {
 		std::cerr << e.what() << std::endl;
