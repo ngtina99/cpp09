@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/10 12:37:28 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/07/05 22:48:20 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	BitcoinExchange::fileReader(char *argv) {
 	if(line != "date | value")
 		throw(firstLineException());
 	while(getline(file,line)) {
+
 		std::string date, valueStr;
 		float value;
 
@@ -119,6 +120,7 @@ void	BitcoinExchange::fileReader(char *argv) {
 		else {
 			std::getline(ss, date, '|');
 			date.erase(date.size() - 1);
+	
 		}
 
 		try {
