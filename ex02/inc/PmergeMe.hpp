@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 19:29:54 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/07/05 22:49:31 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/07/12 01:01:41 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,20 @@
 #define MYGREEN		"\033[1;32m"
 #define MYPURPLE	"\033[1;35m"
 
+#include <iostream>
 #include <exception>
+#include <deque>
+#include <vector>
+//#include <cstdlib>   // for std::atoi
+#include <cctype>    // for std::isdigit
+
 
 class PmergeMe {
+
+	private:
+
+		std::vector<int> _vector;
+		std::deque<int> _deque;
 
 	public:
 
@@ -30,9 +41,15 @@ class PmergeMe {
 		PmergeMe& operator=(const PmergeMe& other);
 		PmergeMe(const PmergeMe& other);
 
-	private:
-
+		void	organizeArg(int argc, char **argv);
 		
+	class wrongInput : public std::exception {
+		
+		public:
+		
+			const char *what()	const throw();
+
+	};
 
 };
 
