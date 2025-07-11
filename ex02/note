@@ -1,0 +1,38 @@
+✅ main.cpp
+
+Parse command-line arguments, check for positive integers.
+
+Store them in two containers: std::vector and std::deque.
+
+
+✅ PmergeMe.hpp / PmergeMe.cpp
+
+Implement the Ford-Johnson sorting logic separately for each container (avoid writing generic templates as per instruction).
+
+
+✅ Time measurement
+
+Use <chrono> (e.g., std::chrono::high_resolution_clock) to time sorting and preparation.
+
+
+✅ Error handling
+
+If any input is invalid (negative, non-integer), print "Error" to std::cerr and exit.
+
+
+✅ Output format
+
+Print the unsorted sequence.
+
+Print the sorted sequence.
+
+Print the time taken for both containers, clearly showing which is which.
+
+
+#include <chrono>
+
+auto start = std::chrono::high_resolution_clock::now();
+// Run sort here
+auto end = std::chrono::high_resolution_clock::now();
+std::chrono::duration<double, std::micro> diff = end - start;
+std::cout << "Time to process with std::vector: " << diff.count() << " us" << std::endl;

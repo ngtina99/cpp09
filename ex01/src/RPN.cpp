@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 13:32:12 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/09 19:33:39 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/07/05 23:03:04 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,4 @@ const char* RPN::calculationException::what() const throw() {
 const char* RPN::zeroDivisionException::what() const throw() {
 	return(MYRED "Error: division by zero" MYEOF);
 }
-
 
