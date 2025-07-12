@@ -6,7 +6,7 @@
 /*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 19:29:54 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/07/12 01:01:41 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/07/12 03:16:45 by ngtina1999       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,14 @@
 #define MYPURPLE	"\033[1;35m"
 
 #include <iostream>
+#include <cstdio>
 #include <exception>
 #include <deque>
 #include <vector>
-//#include <cstdlib>   // for std::atoi
+#include <cstdlib>   // for std::atoi
 #include <cctype>    // for std::isdigit
+#include <algorithm> //for sort
+#include <ctime>
 
 
 class PmergeMe {
@@ -33,6 +36,8 @@ class PmergeMe {
 
 		std::vector<int> _vector;
 		std::deque<int> _deque;
+		double	_vectorTime;
+		double	_dequeTime;
 
 	public:
 
@@ -41,7 +46,13 @@ class PmergeMe {
 		PmergeMe& operator=(const PmergeMe& other);
 		PmergeMe(const PmergeMe& other);
 
-		void	organizeArg(int argc, char **argv);
+		void	organizeVector(int argc, char **argv);
+		void	organizeDeque(int argc, char **argv);
+
+		void	sortVector();
+		void	sortDeque();
+
+		void	printResult(char **argv);
 		
 	class wrongInput : public std::exception {
 		
