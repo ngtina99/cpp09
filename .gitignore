@@ -1,0 +1,14 @@
+# object files
+*.o
+
+# executables
+ex00/megaphone
+ex01/phonebook
+ex02/program_name
+
+# editor
+.vscode/
+
+# swap and temp files
+*.swp
+*~
