@@ -2,9 +2,9 @@
 *.o
 
 # executables
-ex00/megaphone
-ex01/phonebook
-ex02/program_name
+ex00/btc
+ex01/RPN
+ex02/PmergeMe
 
 # editor
 .vscode/
