@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:17 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/07/05 22:46:59 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/08/04 00:29:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 #define BITCOINEXCHANGE_HPP
 
-#include <iostream>
-#include <fstream>
+#include <iostream> 
+#include <fstream> //std::ifstream file
 #include <sstream>
 #include <string>
 #include <cstdlib> //exit

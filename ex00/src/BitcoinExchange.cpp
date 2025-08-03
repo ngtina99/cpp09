@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   BitcoinExchange.cpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/07/05 22:48:20 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/08/04 00:34:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 BitcoinExchange::BitcoinExchange() {
 
+	//reads from file
 	std::ifstream	file(FILEPATH);
-	std::string		line;
-
 	if(!file.is_open())
 		throw(dataBaseException());
+		
+	std::string		line;
 	std::getline(file, line);
 	if(line.empty())
 		throw(fileException());
+
 	while(std::getline(file, line)) {
 
 		std::string date, exchangeRateStr;
@@ -34,9 +36,10 @@ BitcoinExchange::BitcoinExchange() {
 		std::istringstream iss(exchangeRateStr);
 		iss >> exchangeRate;
 
-		this->_data[date] =exchangeRate;
+		this->_data[date] = exchangeRate;
 
 	}
+
 	file.close();
 
 }
@@ -161,19 +164,19 @@ void	BitcoinExchange::fileReader(char *argv) {
 		// lower date and not the upper one.
 
 const char* BitcoinExchange::dataBaseException::what() const throw() {
-	return(MYRED "Error: couldn't open the database file or it was empty" MYEOF);
+	return(MYRED "Error: couldn't open the file" MYEOF);
 }
 
 const char* BitcoinExchange::fileException::what() const throw() {
-	return(MYRED "Error: couldn't open the file or it was empty" MYEOF);
+	return(MYRED "Error: the file was empty" MYEOF);
 }
 
 const char* BitcoinExchange::firstLineException::what() const throw() {
-	return(MYRED "Error: first line is not exactly 'datE | value'" MYEOF);
+	return(MYRED "Error: first line is not exactly 'date | value'" MYEOF);
 }
 
 BitcoinExchange::dateException::dateException(const std::string &date) {
-	this->_errorMessage = std::string(MYRED) + "Error: bad input => " + date + std::string(MYEOF);
+	this->_errorMessage = std::string(MYRED) + "Error: bad date input => " + date + std::string(MYEOF);
 }
 
 const char* BitcoinExchange::dateException::what() const throw() {
@@ -184,7 +187,7 @@ BitcoinExchange::dateException::~dateException() throw() {
 }
 
 const char* BitcoinExchange::tooHighValueException::what() const throw() {
-	return(MYRED "Error: too large a number." MYEOF);
+	return(MYRED "Error: too large number." MYEOF);
 }
 
 const char* BitcoinExchange::negativeNumberException::what() const throw() {
