@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 01:07:35 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 01:48:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ BitcoinExchange::BitcoinExchange() {
 BitcoinExchange::~BitcoinExchange() {	
 }
 
-BitcoinExchange::BitcoinExchange(BitcoinExchange &copy) {
+BitcoinExchange::BitcoinExchange(BitcoinExchange const &copy) {
 	this->_data = copy._data;
 }
 
@@ -77,6 +77,7 @@ void	BitcoinExchange::checkDate(std::string date) {
 		throw(dateException(date));
 	else if ((year % 4 == 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
 		throw(dateException(date));
+
 }
 
 void	BitcoinExchange::checkValue(float value) {
@@ -88,11 +89,12 @@ void	BitcoinExchange::checkValue(float value) {
 
 void	BitcoinExchange::exchangeValue(std::string const &date, float value) {
 	
+	//lower_bound >= key
 	std::map<std::string, float>::iterator it = _data.lower_bound(date);
 	
 	if (it != _data.end() && date == it->first)
 		std::cout << date << " => " << value << " = " << std::setprecision(2) << value * it->second << std::endl;
-	else if(it != _data.end()) {
+	else if(it != _data.begin()) {
 		--it;
 		std::cout << date << " => " << value << " = "  << std::setprecision(2) << value * it->second << std::endl;
 	}
@@ -107,12 +109,15 @@ void	BitcoinExchange::fileReader(char *argv) {
 	file.open(argv);
 	if(!file.is_open())
 		throw(fileException());
+	
 	std::string	line;
 	std::getline(file, line);
 	if(line.empty())
 		throw(fileException());
+
 	if(line != "date | value")
 		throw(firstLineException());
+
 	while(getline(file,line)) {
 
 		std::string date, valueStr;
@@ -125,46 +130,42 @@ void	BitcoinExchange::fileReader(char *argv) {
 			std::getline(ss, date, '\n');
 		else {
 			std::getline(ss, date, '|');
-			date.erase(date.size() - 1);
-	
+			if (!date.empty() && date[date.size() - 1] == ' ')
+				date.erase(date.size() - 1);
 		}
 
 		try {
-
 			checkDate(date);
-
 		}
 		catch (std::exception &e) {
-
 			std::cerr << e.what() << std::endl;
 			continue;
-
 		}
 
 		std::getline(ss, valueStr, '\n');
-		valueStr.erase(0, 1);
+		if (!valueStr.empty() && valueStr[0] == ' ')
+			valueStr.erase(0, 1);
 		std::stringstream ssValue(valueStr);
 		ssValue >> value;
+
 		try {
-
 			checkValue(value);
-
 		}
 		catch (std::exception &e) {
-
 			std::cerr << e.what() << std::endl;
 			continue;
-
 		}
-		exchangeValue(date, value);		
+
+		try {
+			exchangeValue(date, value);
+		}
+		catch (std::exception &e) {
+			std::cerr << e.what() << std::endl;
+			continue;
+		}
+
 	}
 }
-// 		This program must use a database in csv format which will represent bitcoin price
-// over time
-
-		// If the date used in the input does not exist in your DB then you
-		// must use the closest date contained in your DB. Be careful to use the
-		// lower date and not the upper one.
 
 const char* BitcoinExchange::dataBaseException::what() const throw() {
 	return(MYRED "Error: couldn't open the file" MYEOF);

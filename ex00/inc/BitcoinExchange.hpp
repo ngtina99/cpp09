@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:17 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 00:29:18 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 01:31:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ class BitcoinExchange {
 
 		BitcoinExchange();
 		~BitcoinExchange();
-		BitcoinExchange(BitcoinExchange &copy);
+		BitcoinExchange(BitcoinExchange const &copy);
 		BitcoinExchange &operator=(BitcoinExchange const &rhs);
 
 		void	fileReader(char *argv);
