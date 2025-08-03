@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 00:34:00 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 01:07:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ BitcoinExchange::BitcoinExchange() {
 
 		std::string date, exchangeRateStr;
 		float exchangeRate = 0.0;
-		
+
 		std::stringstream ss(line);
+		//std::getline(input_stream, target_string [, delimiter]);
 		std::getline(ss, date, ',');
 		std::getline(ss, exchangeRateStr, '\n');
 
+		//safe: string to number
 		std::istringstream iss(exchangeRateStr);
 		iss >> exchangeRate;
 
@@ -48,11 +50,12 @@ BitcoinExchange::~BitcoinExchange() {
 }
 
 BitcoinExchange::BitcoinExchange(BitcoinExchange &copy) {
-	(void)copy;
+	this->_data = copy._data;
 }
 
 BitcoinExchange& BitcoinExchange::operator=(BitcoinExchange const &rhs) {
-	(void)rhs;
+	if (this != &rhs)
+		this->_data = rhs._data;
 	return (*this);
 }
 
