@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/09 19:29:51 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/07/12 14:45:20 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/08/04 03:46:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ PmergeMe::PmergeMe(const PmergeMe &other) : _vector(other._vector), _deque(other
 
 PmergeMe& PmergeMe::operator=(const PmergeMe &other) {
 	
-	if(this != &other) { // because then it would make a loop if it's pointing to the same address
+	if(this != &other) {
 		_vector = other._vector;
 		_deque = other._deque;
 	}
@@ -32,7 +32,7 @@ PmergeMe& PmergeMe::operator=(const PmergeMe &other) {
 }
 
 const char *PmergeMe::wrongInput::what() const throw() {
-	// return ("use integer sequence which only containt positive integers with no duplication");
+	// return ("use integer sequence which only contains positive integers with no duplication");
 	return ("Error");
 }
 
@@ -50,16 +50,14 @@ void	PmergeMe::organizeVector(int argc, char**argv) {
 				throw (wrongInput());
 			}
 		}
-		
+
 		int num = std::atoi(argv[i]);
-		if (num <= 0) {
+		if (num <= 0 || num > INT_MAX)
 			throw (wrongInput());
-		}
 		
 		for (size_t k = 0; k < _vector.size(); k++) {
-			if (_vector[k] == num) {
+			if (_vector[k] == num)
 				throw (wrongInput());
-			}
 		}
 		
 		_vector.push_back(num);
@@ -124,14 +122,12 @@ void	PmergeMe::organizeDeque(int argc, char**argv) {
 		}
 		
 		int num = std::atoi(argv[i]);
-		if (num <= 0) {
+		if (num <= 0 || num > INT_MAX)
 			throw (wrongInput());
-		}
 		
-		for (size_t k = 0; k < _vector.size(); k++) {
-			if (_deque[k] == num) {
+		for (size_t k = 0; k < _deque.size(); k++) {
+			if (_deque[k] == num)
 				throw (wrongInput());
-			}
 		}
 		
 		_deque.push_back(num);

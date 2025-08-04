@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:07:16 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/07/12 03:26:47 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/08/04 03:43:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@ int	main(int argc, char **argv) {
 	try {
 		pmergeMe.organizeVector(argc, argv);
 	}
-
 	catch(const std::exception &e) {
 		std::cerr << e.what() << std::endl;
 		return (1);
 	}
 	pmergeMe.sortVector();
-	
-	pmergeMe.organizeDeque(argc, argv);
+
+	try {
+		pmergeMe.organizeDeque(argc, argv);
+	}
+	catch(const std::exception &e) {
+		std::cerr << e.what() << std::endl;
+		return (1);
+	}
 	pmergeMe.sortDeque();
 
 	pmergeMe.printResult(argv);
