@@ -28,7 +28,7 @@
 #include <cctype>    // for std::isdigit
 #include <algorithm> //for sort
 #include <ctime>
-
+#include <climits>
 
 class PmergeMe {
 
