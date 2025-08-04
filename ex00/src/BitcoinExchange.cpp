@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 01:48:40 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 02:02:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	BitcoinExchange::checkDate(std::string date) {
 }
 
 void	BitcoinExchange::checkValue(float value) {
-	if (value >= INT_MAX)
+	if (value > 1000)
 		throw(tooHighValueException());
 	else if(value < 0)
 		throw(negativeNumberException());
