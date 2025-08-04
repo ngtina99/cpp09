@@ -174,7 +174,7 @@ void PmergeMe::sortDeque() {
 	_deque = bigger;
 
 	clock_t end = clock();
- 	_dequeTime += double(end - start) / CLOCKS_PER_SEC * 1e6;  // microseconds
+ 	_dequeTime += double(end - start) / CLOCKS_PER_SEC * 1e6;  // elapsed time in seconds into microseconds
 
 }
 
