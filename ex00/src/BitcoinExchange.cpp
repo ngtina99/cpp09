@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:13 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 02:02:25 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 02:09:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	BitcoinExchange::checkDate(std::string date) {
 		throw(dateException(date));
 	else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30))
 		throw(dateException(date));
-	else if ((year % 4 == 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
+	else if ((year % 4 != 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
 		throw(dateException(date));
 
 }
