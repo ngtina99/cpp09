@@ -40,4 +40,5 @@ int	main(int argc, char **argv) {
 
 }
 
-//	./PmergeMe $(shuf -i 1-100000 -n 3000)
+//Windows	./PmergeMe $(shuf -i 1-100000 -n 3000)
+//Linux		./PmergeMe `shuf -i 1-1000 -n 3000 | tr "\n" " " `

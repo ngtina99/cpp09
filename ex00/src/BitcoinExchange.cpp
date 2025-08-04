@@ -75,7 +75,7 @@ void	BitcoinExchange::checkDate(std::string date) {
 		throw(dateException(date));
 	else if ((month == 4 || month == 6 || month == 9 || month == 11) && (day > 30))
 		throw(dateException(date));
-	else if ((year % 4 != 0 && month == 2 && day !=29) || (year % 4 == 0 && month == 2 && day !=28))
+	else if ((year % 4 == 0 && month == 2 && day > 29) || (year % 4 != 0 && month == 2 && day > 28))
 		throw(dateException(date));
 
 }
@@ -93,10 +93,10 @@ void	BitcoinExchange::exchangeValue(std::string const &date, float value) {
 	std::map<std::string, float>::iterator it = _data.lower_bound(date);
 	
 	if (it != _data.end() && date == it->first)
-		std::cout << date << " => " << value << " = " << std::setprecision(2) << value * it->second << std::endl;
+		std::cout << std::fixed << std::setprecision(2) << date << " => " << value << " = " << value * it->second << std::endl;
 	else if(it != _data.begin()) {
 		--it;
-		std::cout << date << " => " << value << " = "  << std::setprecision(2) << value * it->second << std::endl;
+		std::cout << std::fixed << std::setprecision(2) << date << " => " << value << " = " << value * it->second << std::endl;
 	}
 	else
 		throw(noLowerException());
@@ -172,7 +172,7 @@ const char* BitcoinExchange::dataBaseException::what() const throw() {
 }
 
 const char* BitcoinExchange::fileException::what() const throw() {
-	return(MYRED "Error: the file was empty" MYEOF);
+	return(MYRED "Error: couldn't open the file or the file was empty" MYEOF);
 }
 
 const char* BitcoinExchange::firstLineException::what() const throw() {
