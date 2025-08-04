@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 13:32:12 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 02:52:38 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 03:10:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 RPN::RPN() {
 }
-
-// Extra operators (3 + +).
-// Too many numbers (3 4 5 +).
-// Division by zero (3 0 /).
 
 void	RPN::calculateValue(char op) {
 	
@@ -30,8 +26,10 @@ void	RPN::calculateValue(char op) {
 
 	a = _stack.top();
 	_stack.pop();
+
 	b = _stack.top();
 	_stack.pop();
+
 	switch (op) {
 		case '+':
 			result = a + b;
@@ -46,7 +44,7 @@ void	RPN::calculateValue(char op) {
 			if (a == 0)
 				throw(zeroDivisionException());
 			else
-				result = b/ a;
+				result = b / a;
 			break;
 	}
 	_stack.push(result);
@@ -57,32 +55,35 @@ RPN::RPN(const std::string &arg) {
 	std::string inputValue;
 	std::stringstream ss(arg);
 	while (std::getline(ss, inputValue, ' ')) {	
+
 		if((inputValue.length() == 1 && isdigit(inputValue[0])) || (inputValue.length() == 2 && (inputValue[0] == '-' || inputValue[0] == '+') && isdigit(inputValue[1])))
 			_stack.push(std::atoi(inputValue.c_str()));
 		else if (inputValue[0] == '-' || inputValue[0] == '+' || inputValue[0] == '*' || inputValue[0] == '/')
 			calculateValue(inputValue[0]);
 		else
 			throw(parserException());
+
 	}
-	std::cout << _stack.top() << std::endl;
+
+	std::cout << _stack.top() <<std::endl;
+
 }
 
 RPN::~RPN() {
 }
 
-//TODO
 RPN::RPN(RPN const &copy) {
-	(void)copy;
+	this->_stack = copy._stack;
 }
 
-//TODO
 RPN& RPN::operator=(RPN const &rhs) {
-	(void)rhs;
-	return(*this);
+	if (this != &rhs)
+		this->_stack = rhs._stack;
+	return *this;
 }
 
 const char* RPN::parserException::what() const throw() {
-	return(MYRED "Error: the expression contains invalid characters" MYEOF);
+	return(MYRED "Error: the expression is invalid" MYEOF);
 }
 
 const char* RPN::calculationException::what() const throw() {

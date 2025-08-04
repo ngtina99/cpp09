@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ngtina1999 <ngtina1999@student.42.fr>      +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 19:09:11 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/03/09 19:10:17 by ngtina1999       ###   ########.fr       */
+/*   Updated: 2025/08/04 02:57:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <stack>
-#include <cstdlib>
+#include <cstdlib> //atoi
 #include <sstream>
 #include <exception>
 

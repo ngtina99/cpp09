@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:09:17 by ngtina1999        #+#    #+#             */
-/*   Updated: 2025/08/04 01:31:58 by marvin           ###   ########.fr       */
+/*   Updated: 2025/08/04 02:59:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <string>
 #include <cstdlib> //exit
 #include <map>
-#include <iomanip>
+#include <iomanip> //setprecision
 #include <climits>
 
 #define MYEOF	 "\033[0m"
